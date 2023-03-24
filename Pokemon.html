@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/pokemon.js"></script>
+</head>
+
+<body>
+
+<section id="seleccionar-pokemon">
+    <h1 class="title"> POKEMON 🔥💧🌱 </h1>
+
+    <h2 class="subtitulo">Elige tu pokemon</h2>
+
+    <div class="tarjetas">
+        <input type="radio" name="pokemon" id="pikachu"/>
+        <label class="tarjeta-de-pokemon" for="pikachu">
+            <p>Picachu</p>
+            <img src="assets/picachu.jpg" alt="picachu">
+        </label>
+
+        <input type="radio" name="pokemon" id="jigglypuff"/>
+        <label class="tarjeta-de-pokemon" for="jigglypuff">
+           <p>Jigglypuff</p>
+            <img src="assets/jigglypuff.jpg" alt="flareon">
+        </label>
+
+        <input type="radio" name="pokemon" id="squirtle"/>
+        <label class="tarjeta-de-pokemon" for="squirtle">
+            <p>Squirtle</p>
+            <img src="assets/squirtle.jpg" alt="squirtle">
+        </label>
+
+        <input type="radio" name="pokemon" id="bulbasaur"/>
+        <label class="tarjeta-de-pokemon" for="bulbasaur">
+            <p>Bulbasaur</p>
+            <img src="assets/bulbasaur.jpg" alt="bulbasaur">
+        </label>
+    </div>
+    <button id="btn-seleccionar-pokemon">Seleccionar</button>
+
+</section>
+
+<section id="seleccionar-ataques">
+    <h1 class="title"> POKEMON 🔥💧🌱 </h1>
+    <h2>Elige tu ataque</h2>
+    <p> Tu pokemon <span id="pokemon-jugador">nombre del pokemon</span> tiene <span id="vidas-pokemon-jugador">3</span>
+        vidas</p>
+    <p> El pokemon <span id="pokemon-enemigo"></span> de tu enemigo tiene <span id="vidas-pokemon-enemigo">3</span>
+        vidas</p>
+    <p>
+        <button id="btn-fuego"> Fuego 🔥</button>
+        <button id="btn-agua"> Agua 💧</button>
+        <button id="btn-tierra"> Tierra 🌱</button>
+    </p>
+</section>
+<section id="mensajes">
+
+</section>
+<section id="reiniciar">
+    <button id="btn-reiniciar">Reiniciar</button>
+</section>
+
+</body>
+</html>
