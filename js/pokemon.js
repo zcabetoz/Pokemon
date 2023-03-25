@@ -4,7 +4,10 @@ let vidasJugador = 3
 let vidasEnemigo = 3
 
 function iniciarJuego() {
-    // let sectionReiniciar = document.getElementById('reiniciar')
+    let divBulbasaur = document.getElementById('div-bulbasaur')
+    let divPicachu = document.getElementById('div-picachu')
+    let divSquirtle = document.getElementById('div-squirtle')
+    let divJigglypuff = document.getElementById('div-jigglypuff')
     let seccionSeleccionarAtaque = document.getElementById('seleccionar-ataques')
     seccionSeleccionarAtaque.style.display = 'none'
     let btnPokemonJugador = document.getElementById('btn-seleccionar-pokemon')
@@ -18,8 +21,74 @@ function iniciarJuego() {
     let btnReiniciar = document.getElementById('btn-reiniciar')
     btnReiniciar.addEventListener('click', reiniciarJuego)
     btnReiniciar.style.display = 'none'
+    divJigglypuff.addEventListener('click',mostrarJigglypuff)
+    divSquirtle.addEventListener('click', mostrarSquirtle)
+    divBulbasaur.addEventListener('click', mostrarBulbasaur)
+    divPicachu.addEventListener('click', mostrarPicachu)
+    btnPokemonJugador.disabled = true
+    btnPokemonJugador.style.background = 'gray'
 }
+function mostrarJigglypuff(){
+    let btnAtras = document.getElementById('btn-atras')
+    let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
+    let divBulbasaur = document.getElementById('div-bulbasaur')
+    let divPicachu = document.getElementById('div-picachu')
+    let divSquirtle = document.getElementById('div-squirtle')
+    divPicachu.style.display = 'none'
+    divBulbasaur.style.display ='none'
+    divSquirtle.style.display = 'none'
+    btnSeleccionarPokemon.disabled = false
+    btnSeleccionarPokemon.style.background = 'transparent'
+    btnAtras.style.display = 'block'
+    btnAtras.addEventListener('click', reiniciarJuego)
 
+}
+function mostrarPicachu(){
+    let btnAtras = document.getElementById('btn-atras')
+
+    let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
+    let divBulbasaur = document.getElementById('div-bulbasaur')
+    let divJigglypuff = document.getElementById('div-jigglypuff')
+    let divSquirtle = document.getElementById('div-squirtle')
+    divJigglypuff.style.display = 'none'
+    divSquirtle.style.display = 'none'
+    divBulbasaur.style.display ='none'
+    btnSeleccionarPokemon.disabled = false
+    btnSeleccionarPokemon.style.background = 'transparent'
+    btnAtras.style.display = 'block'
+    btnAtras.addEventListener('click', reiniciarJuego)
+
+}
+function mostrarSquirtle(){
+    let btnAtras = document.getElementById('btn-atras')
+
+    let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
+    let divBulbasaur = document.getElementById('div-bulbasaur')
+    let divJigglypuff = document.getElementById('div-jigglypuff')
+    let divPicachu = document.getElementById('div-picachu')
+    divJigglypuff.style.display = 'none'
+    divPicachu.style.display = 'none'
+    divBulbasaur.style.display ='none'
+    btnSeleccionarPokemon.disabled = false
+    btnSeleccionarPokemon.style.background = 'transparent'
+    btnAtras.style.display = 'block'
+    btnAtras.addEventListener('click', reiniciarJuego)
+}
+function mostrarBulbasaur(){
+    let btnAtras = document.getElementById('btn-atras')
+    let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
+    let divPicachu = document.getElementById('div-picachu')
+    let divJigglypuff = document.getElementById('div-jigglypuff')
+    let divSquirtle = document.getElementById('div-squirtle')
+    divJigglypuff.style.display = 'none'
+    divSquirtle.style.display = 'none'
+    divPicachu.style.display ='none'
+    btnSeleccionarPokemon.disabled = false
+    btnSeleccionarPokemon.style.background = 'transparent'
+    btnAtras.style.display = 'block'
+    btnAtras.addEventListener('click', reiniciarJuego)
+
+}
 function seleccionAtaqueEnemigo() {
     ataqueEnemigo = aleatorio(1, 3)
     if (ataqueEnemigo === 1) {
@@ -57,7 +126,7 @@ function seleccionarPokemonJugador() {
     if (flag) {
         seleccionarPokemonEnemigo()
     }
-    seccionSeleccionarAtaques.style.display = 'block'
+    seccionSeleccionarAtaques.style.display = 'flex'
     seccionSeleccionarPokemon.style.display = 'none'
 }
 
