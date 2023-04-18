@@ -1,41 +1,141 @@
-let ataqueJugador;
-let ataqueEnemigo;
-let vidasJugador = 3
-let vidasEnemigo = 3
+pokemones = []
+
+let opcionDePokemones
+let vidasJugador = 5
+let vidasEnemigo = 5
+
+let victoriasJugador = 0
+let victoriasEnemigo = 0
+
+let divBulbasaur
+let inputBulbasaur
+
+let divJigglypuff
+let inputJigglypuff
+
+let divPicachu
+let inputPicachu
+
+let divSquirtle
+let inputSquirtle
+
+let btnAgua
+let btnFuego
+let btnTierra
+let btnElectricidad
+
+let botones = []
+let ataqueJugador = []
+let ataquesPokemon
+let ataquesPokemonEnemigo
+let ataqueEnemigo = []
+let ataqueEnemigoAleatorio
+
+let indexAtaqueJugador
+let indexAtaqueEnemigo
+
+class Pokemon {
+    constructor(nombre, foto, vida) {
+        this.nombre = nombre
+        this.foto = foto
+        this.vida = vida
+        this.ataque = []
+    }
+
+}
+
+let picachu = new Pokemon('picachu', 'assets/picachu.jpg', 3);
+let bulbasaur = new Pokemon('bulbasaur', 'assets/Bulbasaur.jpg', 3);
+let squirtle = new Pokemon('squirtle', 'assets/Squirtle.jpg', 3);
+let jigglypuff = new Pokemon('jigglypuff', 'assets/Jigglypuff.jpg', 3);
+
+
+picachu.ataque.push(
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
+bulbasaur.ataque.push(
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
+squirtle.ataque.push(
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
+jigglypuff.ataque.push(
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '💧', id: 'btn-agua'},
+)
+
+pokemones.push(picachu, squirtle, bulbasaur, jigglypuff)
 
 function iniciarJuego() {
-    let divBulbasaur = document.getElementById('div-bulbasaur')
-    let divPicachu = document.getElementById('div-picachu')
-    let divSquirtle = document.getElementById('div-squirtle')
-    let divJigglypuff = document.getElementById('div-jigglypuff')
-    let seccionSeleccionarAtaque = document.getElementById('seleccionar-ataques')
-    seccionSeleccionarAtaque.style.display = 'none'
-    let btnPokemonJugador = document.getElementById('btn-seleccionar-pokemon')
-    btnPokemonJugador.addEventListener('click', seleccionarPokemonJugador)
-    let btnAgua = document.getElementById('btn-agua')
-    btnAgua.addEventListener('click', ataqueAgua)
-    let btnFuego = document.getElementById('btn-fuego')
-    btnFuego.addEventListener('click', ataqueFuego)
-    let btnTierra = document.getElementById('btn-tierra')
-    btnTierra.addEventListener('click', ataqueTierra)
-    let btnReiniciar = document.getElementById('btn-reiniciar')
-    btnReiniciar.addEventListener('click', reiniciarJuego)
-    btnReiniciar.style.display = 'none'
-    divJigglypuff.addEventListener('click',mostrarJigglypuff)
+    const contenedorPokemon = document.getElementById('contenedor-pokemon')
+    pokemones.forEach((pokemon) => {
+        opcionDePokemones = `
+             <div id="div-${pokemon.nombre}">
+                <input type="radio" name="pokemon" id=${pokemon.nombre}>
+                <label class="tarjeta-de-pokemon" for=${pokemon.nombre}>
+                    <p>${pokemon.nombre}</p>
+                    <img src=${pokemon.foto} alt=${pokemon.nombre}>
+                </label>
+            </div>
+        `
+        contenedorPokemon.innerHTML += opcionDePokemones
+
+        divPicachu = document.getElementById("div-picachu")
+        inputPicachu = document.getElementById("picachu")
+
+        divBulbasaur = document.getElementById("div-bulbasaur")
+        inputBulbasaur = document.getElementById("bulbasaur")
+
+        divSquirtle = document.getElementById("div-squirtle")
+        inputSquirtle = document.getElementById("squirtle")
+
+        divJigglypuff = document.getElementById('div-jigglypuff')
+        inputJigglypuff = document.getElementById('jigglypuff')
+    })
+
+    divJigglypuff.addEventListener('click', mostrarJigglypuff)
     divSquirtle.addEventListener('click', mostrarSquirtle)
     divBulbasaur.addEventListener('click', mostrarBulbasaur)
     divPicachu.addEventListener('click', mostrarPicachu)
+
+    let btnPokemonJugador = document.getElementById('btn-seleccionar-pokemon')
+    btnPokemonJugador.addEventListener('click', seleccionarPokemonJugador)
+
+    let seccionSeleccionarAtaque = document.getElementById('seleccionar-ataques')
+    seccionSeleccionarAtaque.style.display = 'none'
+
+    let btnReiniciar = document.getElementById('btn-reiniciar')
+    btnReiniciar.addEventListener('click', reiniciarJuego)
+    btnReiniciar.style.display = 'none'
     btnPokemonJugador.disabled = true
     btnPokemonJugador.style.background = 'gray'
 }
-function mostrarJigglypuff(){
+
+function mostrarJigglypuff() {
+
     let btnAtras = document.getElementById('btn-atras')
     let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
-    let divBulbasaur = document.getElementById('div-bulbasaur')
-    let divPicachu = document.getElementById('div-picachu')
-    let divSquirtle = document.getElementById('div-squirtle')
     divPicachu.style.display = 'none'
-    divBulbasaur.style.display ='none'
+    divBulbasaur.style.display = 'none'
     divSquirtle.style.display = 'none'
     btnSeleccionarPokemon.disabled = false
     btnSeleccionarPokemon.style.background = 'transparent'
@@ -43,154 +143,201 @@ function mostrarJigglypuff(){
     btnAtras.addEventListener('click', reiniciarJuego)
 
 }
-function mostrarPicachu(){
-    let btnAtras = document.getElementById('btn-atras')
 
+function mostrarPicachu() {
+    let btnAtras = document.getElementById('btn-atras')
     let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
-    let divBulbasaur = document.getElementById('div-bulbasaur')
-    let divJigglypuff = document.getElementById('div-jigglypuff')
-    let divSquirtle = document.getElementById('div-squirtle')
     divJigglypuff.style.display = 'none'
     divSquirtle.style.display = 'none'
-    divBulbasaur.style.display ='none'
+    divBulbasaur.style.display = 'none'
     btnSeleccionarPokemon.disabled = false
     btnSeleccionarPokemon.style.background = 'transparent'
     btnAtras.style.display = 'block'
     btnAtras.addEventListener('click', reiniciarJuego)
-
 }
-function mostrarSquirtle(){
-    let btnAtras = document.getElementById('btn-atras')
 
+function mostrarSquirtle() {
+    let btnAtras = document.getElementById('btn-atras')
     let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
-    let divBulbasaur = document.getElementById('div-bulbasaur')
-    let divJigglypuff = document.getElementById('div-jigglypuff')
-    let divPicachu = document.getElementById('div-picachu')
     divJigglypuff.style.display = 'none'
     divPicachu.style.display = 'none'
-    divBulbasaur.style.display ='none'
+    divBulbasaur.style.display = 'none'
     btnSeleccionarPokemon.disabled = false
     btnSeleccionarPokemon.style.background = 'transparent'
     btnAtras.style.display = 'block'
     btnAtras.addEventListener('click', reiniciarJuego)
 }
-function mostrarBulbasaur(){
+
+function mostrarBulbasaur() {
     let btnAtras = document.getElementById('btn-atras')
     let btnSeleccionarPokemon = document.getElementById('btn-seleccionar-pokemon')
-    let divPicachu = document.getElementById('div-picachu')
-    let divJigglypuff = document.getElementById('div-jigglypuff')
-    let divSquirtle = document.getElementById('div-squirtle')
     divJigglypuff.style.display = 'none'
     divSquirtle.style.display = 'none'
-    divPicachu.style.display ='none'
+    divPicachu.style.display = 'none'
     btnSeleccionarPokemon.disabled = false
     btnSeleccionarPokemon.style.background = 'transparent'
     btnAtras.style.display = 'block'
     btnAtras.addEventListener('click', reiniciarJuego)
 
 }
-function seleccionAtaqueEnemigo() {
-    ataqueEnemigo = aleatorio(1, 3)
-    if (ataqueEnemigo === 1) {
-        ataqueEnemigo = 'AGUA'
-    } else if (ataqueEnemigo === 2) {
-        ataqueEnemigo = 'FUEGO'
-    } else {
-        ataqueEnemigo = 'TIERRA'
-    }
-    combate()
-}
+
 function seleccionarPokemonJugador() {
-    let seccionSeleccionarAtaques = document.getElementById('seleccionar-ataques')
     let seccionSeleccionarPokemon = document.getElementById('seleccionar-pokemon')
-
-    const $ = selector => document.getElementById(selector)
-    let inputPikachu = $('pikachu')
-    let inputCharmander = $('jigglypuff')
-    let inputSquirtle = document.getElementById('squirtle')
-    let inputBulbasaur = document.getElementById('bulbasaur')
+    let seccionSeleccionarAtaques = document.getElementById('seleccionar-ataques')
+    let nombrePokemonJugador
     let spanPokemonJugador = document.getElementById('pokemon-jugador')
     let flag = true
-    if (inputPikachu.checked) {
-        spanPokemonJugador.innerHTML = 'Pikachu'
-    } else if (inputCharmander.checked) {
-        spanPokemonJugador.innerHTML = 'Jigglypuff'
+
+    if (inputPicachu.checked) {
+        nombrePokemonJugador = inputPicachu.id
+    } else if (inputJigglypuff.checked) {
+        nombrePokemonJugador = inputJigglypuff.id
     } else if (inputSquirtle.checked) {
-        spanPokemonJugador.innerHTML = 'Squirtle'
+        nombrePokemonJugador = inputSquirtle.id
     } else if (inputBulbasaur.checked) {
-        spanPokemonJugador.innerHTML = 'Bulbasaur'
-    } else {
-        flag = false
-        alert('no has seleccionado tu pokemon')
+        nombrePokemonJugador = inputBulbasaur.id
     }
+    spanPokemonJugador.innerHTML = nombrePokemonJugador[0].toUpperCase() + nombrePokemonJugador.slice(1)
+
+    extraerAtaques(nombrePokemonJugador)
+    seccionSeleccionarAtaques.style.display = 'flex'
+    seccionSeleccionarPokemon.style.display = 'none'
+
     if (flag) {
         seleccionarPokemonEnemigo()
     }
-    seccionSeleccionarAtaques.style.display = 'flex'
-    seccionSeleccionarPokemon.style.display = 'none'
+}
+
+function extraerAtaques(nombrePokemonJugador) {
+    let ataques
+    for (let i = 0; i < pokemones.length; i++) {
+        if (nombrePokemonJugador === pokemones[i].nombre) {
+            ataques = pokemones[i].ataque
+        }
+    }
+    mostrarAtaques(ataques)
+}
+
+function mostrarAtaques(ataques) {
+    const contenedorAtaques = document.getElementById('contenedor-ataques')
+    ataques.forEach((ataque) => {
+        ataquesPokemon = `
+            <button id=${ataque.id} class="btn-ataques btnAtaques">${ataque.nombre}</button>
+        `
+        contenedorAtaques.innerHTML += ataquesPokemon
+    })
+
+    btnAgua = document.getElementById('btn-agua')
+    btnFuego = document.getElementById('btn-fuego')
+    btnTierra = document.getElementById('btn-tierra')
+    btnElectricidad = document.getElementById('btn-electricidad')
+    botones = document.querySelectorAll('.btnAtaques')
+}
+
+function secuenciaAtaque() {
+    botones.forEach((boton) => {
+        boton.addEventListener('click', (e) => {
+            if (e.target.textContent === '🔥') {
+                ataqueJugador.push('FUEGO')
+                boton.style.background = '#B2A4FF'
+                console.log(ataqueJugador)
+                boton.disabled = true
+            } else if (e.target.textContent === '💧') {
+                ataqueJugador.push('AGUA')
+                boton.style.background = '#B2A4FF'
+                console.log(ataqueJugador)
+                boton.disabled = true
+            } else if (e.target.textContent === '🌱') {
+                ataqueJugador.push('TIERRA')
+                boton.style.background = '#B2A4FF'
+                console.log(ataqueJugador)
+                boton.disabled = true
+            } else {
+                ataqueJugador.push('ELECTRICIDAD')
+                boton.style.background = '#B2A4FF'
+                console.log(ataqueJugador)
+                boton.disabled = true
+            }
+            seleccionAtaqueEnemigo()
+        })
+    })
 }
 
 function seleccionarPokemonEnemigo() {
-    let pokemonEnemigo = aleatorio(1, 4)
+    let pokemonEnemigo = aleatorio(0, pokemones.length - 1)
     let spanPokemonEnemigo = document.getElementById('pokemon-enemigo')
-    if (pokemonEnemigo === 1) {
-        spanPokemonEnemigo.innerHTML = 'Pikachu'
-    } else if (pokemonEnemigo === 2) {
-        spanPokemonEnemigo.innerHTML = 'Jigglypuff'
-    } else if (pokemonEnemigo === 3) {
-        spanPokemonEnemigo.innerHTML = 'Squirtle'
-    } else
-        spanPokemonEnemigo.innerHTML = 'Bilbasaur'
+    let nombrePokemonEnemigo = pokemones[pokemonEnemigo].nombre
+    spanPokemonEnemigo.innerHTML = nombrePokemonEnemigo[0].toUpperCase() + nombrePokemonEnemigo.slice(1)
+    ataquesPokemonEnemigo = pokemones[pokemonEnemigo].ataque
+    secuenciaAtaque()
 }
 
-function ataqueAgua() {
-    ataqueJugador = 'AGUA'
-    seleccionAtaqueEnemigo()
+function seleccionAtaqueEnemigo() {
+    ataqueEnemigoAleatorio = aleatorio(0, ataquesPokemonEnemigo.length - 1)
+
+    if (ataqueEnemigoAleatorio === 0 || ataqueEnemigoAleatorio === 1) {
+        ataqueEnemigo.push('AGUA')
+    } else if (ataqueEnemigoAleatorio === 2 || ataqueEnemigoAleatorio === 3) {
+        ataqueEnemigo.push('FUEGO')
+    } else if (ataqueEnemigoAleatorio === 4) {
+        ataqueEnemigo.push('TIERRA')
+    } else {
+        ataqueEnemigo.push('ELECTRICIDAD')
+    }
+    console.log(ataqueEnemigo)
+    iniciarCombate()
 }
 
-function ataqueFuego() {
-    ataqueJugador = 'FUEGO'
-    seleccionAtaqueEnemigo()
+function iniciarCombate() {
+    if (ataqueJugador.length === 6) {
+        combate()
+    }
 }
 
-function ataqueTierra() {
-    ataqueJugador = 'TIERRA'
-    seleccionAtaqueEnemigo()
+function indexAmbosOponentes(jugador, enemigo) {
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 
 function combate() {
-    let resultadoCombate
     let spanVidasJugador = document.getElementById('vidas-pokemon-jugador')
     let spanVidasEnemigo = document.getElementById('vidas-pokemon-enemigo')
 
-    if (ataqueJugador === ataqueEnemigo) {
-        resultadoCombate = 'EMPATE'
-    } else if ((ataqueJugador === 'FUEGO' && ataqueEnemigo === 'TIERRA') || (ataqueJugador === 'AGUA' && ataqueEnemigo === 'FUEGO') || (ataqueJugador === 'TIERRA' && ataqueEnemigo === 'AGUA')) {
-        resultadoCombate = 'GANASTE'
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo.toString()
-    } else {
-        resultadoCombate = 'PERDISTE'
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador.toString()
+    for (let i = 0; i < ataqueJugador.length; i++) {
+        if (ataqueJugador[i] === ataqueEnemigo[i]) {
+            indexAmbosOponentes(i, i)
+            crearMensaje('EMPATE')
+
+        } else if ((ataqueJugador[i] === 'TIERRA' && ataqueEnemigo[i] === 'AGUA') || (ataqueJugador[i] === 'AGUA' && ataqueEnemigo[i] === 'FUEGO') ||
+            (ataqueJugador[i] === 'ELECTRICIDAD' && ataqueEnemigo[i] === 'AGUA') || (ataqueJugador[i] === 'FUEGO' && ataqueEnemigo[i] === 'TIERRA')) {
+            indexAmbosOponentes(i, i)
+            victoriasJugador++
+            crearMensaje('GANASTE')
+            spanVidasJugador.innerHTML = victoriasJugador.toString()
+        } else {
+            indexAmbosOponentes(i, i)
+            victoriasEnemigo++
+            spanVidasEnemigo.innerHTML = victoriasEnemigo.toString()
+            crearMensaje('PERDISTE')
+        }
     }
-    crearMensaje(resultadoCombate)
     revisarVidas()
 }
 
 function revisarVidas() {
-    let btnFuego = document.getElementById('btn-fuego')
-    if (vidasJugador === 0) {
-        crearMensajeFinal('Perdiste la batallla')
-    } else if (vidasEnemigo === 0) {
+    if (victoriasJugador === victoriasEnemigo) {
+        crearMensajeFinal('Empate')
+    } else if (vidasJugador > vidasEnemigo) {
         crearMensajeFinal('Ganaste la batalla!!!')
+    }else{
+        crearMensajeFinal('Perdiste la batalla!!!')
     }
 }
 
 function crearMensaje(resultadoCombate) {
     let sectionMensajes = document.getElementById('seleccionar-ataques')
     let parrafo = document.createElement('p')
-    parrafo.innerHTML = 'Tu  pokemon ataco con ' + ataqueJugador + ', el pokemon de tu enemigo ataco con ' + ataqueEnemigo + ' - ' + resultadoCombate
+    parrafo.innerHTML = 'Tu  pokemon ataco con ' + indexAtaqueJugador + ', el pokemon de tu enemigo ataco con ' + indexAtaqueEnemigo + ' - ' + resultadoCombate
     sectionMensajes.appendChild(parrafo)
 }
 
@@ -198,16 +345,10 @@ function crearMensajeFinal(resultadoFinal) {
     if (resultadoFinal) {
         let btnSeleccionar = document.getElementById('btn-seleccionar-pokemon')
         let btnReiniciar = document.getElementById('btn-reiniciar')
-        let btnFuego = document.getElementById('btn-fuego')
-        let btnAgua = document.getElementById('btn-agua')
-        let btnTierra = document.getElementById('btn-tierra')
         let sectionMensajes = document.getElementById('mensajes')
         let parrafo = document.createElement('p')
         parrafo.innerHTML = resultadoFinal
         sectionMensajes.appendChild(parrafo)
-        btnFuego.disabled = true
-        btnAgua.disabled = true
-        btnTierra.disabled = true
         btnSeleccionar.disabled = true
         btnReiniciar.style.display = 'block'
     }
