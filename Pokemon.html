@@ -27,6 +27,7 @@
 
 
 <section id="seleccionar-ataques">
+
     <h1 class="title"><img src="assets/pokemon.jpg" alt="pokemon"></h1>
     <h2 class="subtitulo">Elige tu ataque</h2>
 
@@ -34,24 +35,26 @@
 
     </div>
 
-    <div>
-        <section id="mensajes">
-        </section>
+    <div id="mensajes">
+        <p id="resultado">Mucha Suerte!!!</p>
 
         <section id="reiniciar">
             <button id="btn-reiniciar">Reiniciar</button>
         </section>
     </div>
 
-    <div>
-        <p>
-            Tu pokemon <span id="pokemon-jugador">nombre del pokemon</span> tiene <span
-                id="vidas-pokemon-jugador">0</span> victorias
-        </p>
-        <p>
-            El pokemon <span id="pokemon-enemigo"></span> de tu enemigo tiene <span
-                id="vidas-pokemon-enemigo">0</span> victorias
-        </p>
+    <div class="ataques">
+        <div>
+            <p id="vidas-pokemon-jugador">0</p>
+            <p id="pokemon-jugador"></p>
+            <div id="ataques-del-jugador"></div>
+        </div>
+
+        <div>
+            <p id="vidas-pokemon-enemigo">0</p>
+            <p id="pokemon-enemigo"></p>
+            <div id="ataques-del-enemigo"></div>
+        </div>
     </div>
 
 </section>

@@ -1,8 +1,6 @@
 pokemones = []
 
 let opcionDePokemones
-let vidasJugador = 5
-let vidasEnemigo = 5
 
 let victoriasJugador = 0
 let victoriasEnemigo = 0
@@ -327,28 +325,36 @@ function combate() {
 function revisarVidas() {
     if (victoriasJugador === victoriasEnemigo) {
         crearMensajeFinal('Empate')
-    } else if (vidasJugador > vidasEnemigo) {
+    } else if (victoriasJugador > victoriasEnemigo) {
         crearMensajeFinal('Ganaste la batalla!!!')
-    }else{
+    } else {
         crearMensajeFinal('Perdiste la batalla!!!')
     }
 }
 
 function crearMensaje(resultadoCombate) {
-    let sectionMensajes = document.getElementById('seleccionar-ataques')
-    let parrafo = document.createElement('p')
-    parrafo.innerHTML = 'Tu  pokemon ataco con ' + indexAtaqueJugador + ', el pokemon de tu enemigo ataco con ' + indexAtaqueEnemigo + ' - ' + resultadoCombate
-    sectionMensajes.appendChild(parrafo)
+    let sectionMensajes = document.getElementById('resultado')
+    let ataquesDelJugador = document.getElementById('ataques-del-jugador')
+    let ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
+
+    let nuevoAtaqueJugador = document.createElement('p')
+    let nuevoAtaqueEnemigo = document.createElement('p')
+
+    sectionMensajes.innerHTML = resultadoCombate
+    nuevoAtaqueJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueEnemigo.innerHTML = indexAtaqueEnemigo
+
+    ataquesDelJugador.appendChild(nuevoAtaqueJugador)
+    ataquesDelEnemigo.appendChild(nuevoAtaqueEnemigo)
 }
 
 function crearMensajeFinal(resultadoFinal) {
+
     if (resultadoFinal) {
         let btnSeleccionar = document.getElementById('btn-seleccionar-pokemon')
         let btnReiniciar = document.getElementById('btn-reiniciar')
-        let sectionMensajes = document.getElementById('mensajes')
-        let parrafo = document.createElement('p')
-        parrafo.innerHTML = resultadoFinal
-        sectionMensajes.appendChild(parrafo)
+        let sectionMensajes = document.getElementById('resultado')
+        sectionMensajes.innerHTML = resultadoFinal
         btnSeleccionar.disabled = true
         btnReiniciar.style.display = 'block'
     }
