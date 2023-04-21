@@ -121,6 +121,10 @@ input {
     gap: 3px;
 }
 
+input:hover + label{
+    background: red;
+}
+
 #resultado{
     margin-top: 0px;
     margin-bottom: -10px;
