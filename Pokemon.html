@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Option 1: Include in HTML -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/pokemon.js"></script>
 </head>
 
@@ -25,9 +26,19 @@
 
 </section>
 
+<section id="ver-mapa">
+    <h2 class="subtitulo">Recorre el mapa con tu pokemon</h2>
+    <canvas id="mapa"></canvas>
+    <button onmouseup="detenerMovimiento()" onmousedown="moverUp()">Arriba</button>
+    <div>
+        <button onmouseup="detenerMovimiento()" onmousedown="moverLeft()">Izquierda</button>
+        <button onmouseup="detenerMovimiento()" onmousedown="moverDown()">Abajo</button>
+        <button onmouseup="detenerMovimiento()" onmousedown="moverRight()">Derecha</button>
+    </div>
+</section>
+
 
 <section id="seleccionar-ataques">
-
     <h1 class="title"><img src="assets/pokemon.jpg" alt="pokemon"></h1>
     <h2 class="subtitulo">Elige tu ataque</h2>
 
@@ -44,6 +55,11 @@
     </div>
 
     <div class="ataques">
+
+        <div id="imagen-pokemon">
+
+        </div>
+
         <div>
             <p id="vidas-pokemon-jugador">0</p>
             <p id="pokemon-jugador"></p>
@@ -54,6 +70,9 @@
             <p id="vidas-pokemon-enemigo">0</p>
             <p id="pokemon-enemigo"></p>
             <div id="ataques-del-enemigo"></div>
+        </div>
+        <div id="imagen-enemigo">
+
         </div>
     </div>
 

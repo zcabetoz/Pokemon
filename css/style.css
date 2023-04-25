@@ -132,13 +132,43 @@ input:hover + label{
 
 .ataques{
     display: grid;
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 300px 200px 200px 300px ;
     justify-items: center;
     text-align: center;
     color: white;
     font-size: 20px;
 }
 
+#ver-mapa{
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa{
+    border: 2px solid white;
+}
+
+#ver-mapa button{
+    width: 80px;
+    height: 40px;
+    border-radius: 20px;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    font-family:  'Alkatra', cursive;
+    margin: 5px 0;
+}
+
+#imagen-enemigo{
+    height: 90%;
+    width: 90%;
+}
+#imagen-pokemon{
+    height: 90%;
+    width: 90%;
+}
 @media (max-width: 800px) {
     #contenedor-pokemon{
         display: flex;
@@ -147,4 +177,10 @@ input:hover + label{
     }
 }
 
-
+@media (max-width: 300px) {
+    #ver-mapa div{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}

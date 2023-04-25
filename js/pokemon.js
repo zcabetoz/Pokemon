@@ -32,23 +32,73 @@ let ataqueEnemigoAleatorio
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 
+let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = 'assets/mapa.jpg'
+
+let nombrePokemonJugador
+let obtenerPokemonObjeto
+
+let alturaDeseada
+let anchoMapa = window.innerWidth - 20
+
+const anchoMaximo = 800
+
+if(anchoMapa > anchoMaximo){
+    anchoMapa = anchoMaximo - 20
+}
+
+alturaDeseada = anchoMapa * 600 / 800
 class Pokemon {
-    constructor(nombre, foto, vida) {
+    constructor(nombre, foto, vida, fotoMapa) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataque = []
+        this.width = 85
+        this.height = 85
+        this.x = aleatorio(0, anchoMapa - this.width)
+        this.y = aleatorio(0, alturaDeseada - this.height)
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = fotoMapa
+        this.velocidadY = 0
+        this.velocidadX = 0
     }
 
+    pintarPokemon() {
+        let mapa = document.getElementById('mapa')
+        let lienzo = mapa.getContext("2d")
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
+    }
 }
 
-let picachu = new Pokemon('picachu', 'assets/picachu.jpg', 3);
-let bulbasaur = new Pokemon('bulbasaur', 'assets/Bulbasaur.jpg', 3);
-let squirtle = new Pokemon('squirtle', 'assets/Squirtle.jpg', 3);
-let jigglypuff = new Pokemon('jigglypuff', 'assets/Jigglypuff.jpg', 3);
+let picachu = new Pokemon('picachu', 'assets/picachu.jpg', 3, 'assets/picachu.jpg');
+let bulbasaur = new Pokemon('bulbasaur', 'assets/bulbasaur.jpg', 3, 'assets/bulbasaur.jpg');
+let squirtle = new Pokemon('squirtle', 'assets/squirtle.jpg', 3, 'assets/squirtle.jpg');
+let jigglypuff = new Pokemon('jigglypuff', 'assets/jigglypuff.jpg', 3, 'assets/jigglypuff.jpg');
+
+let picachuEnemigo = new Pokemon('picachu', 'assets/picachu.jpg', 3, 'assets/picachu.jpg');
+let bulbasaurEnemigo = new Pokemon('bulbasaur', 'assets/bulbasaur.jpg', 3, 'assets/bulbasaur.jpg');
+let squirtleEnemigo = new Pokemon('squirtle', 'assets/squirtle.jpg', 3, 'assets/squirtle.jpg');
+let jigglypuffEnemigo = new Pokemon('jigglypuff', 'assets/jigglypuff.jpg', 3, 'assets/jigglypuff.jpg');
 
 
 picachu.ataque.push(
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
+
+picachuEnemigo.ataque.push(
     {nombre: '⚡', id: 'btn-electricidad'},
     {nombre: '⚡', id: 'btn-electricidad'},
     {nombre: '⚡', id: 'btn-electricidad'},
@@ -64,7 +114,24 @@ bulbasaur.ataque.push(
     {nombre: '💧', id: 'btn-agua'},
     {nombre: '🔥', id: 'btn-fuego'},
 )
+
+bulbasaurEnemigo.ataque.push(
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
 squirtle.ataque.push(
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '💧', id: 'btn-agua'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '🔥', id: 'btn-fuego'},
+)
+squirtleEnemigo.ataque.push(
     {nombre: '💧', id: 'btn-agua'},
     {nombre: '💧', id: 'btn-agua'},
     {nombre: '💧', id: 'btn-agua'},
@@ -80,10 +147,21 @@ jigglypuff.ataque.push(
     {nombre: '🌱', id: 'btn-tierra'},
     {nombre: '💧', id: 'btn-agua'},
 )
+jigglypuffEnemigo.ataque.push(
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '🔥', id: 'btn-fuego'},
+    {nombre: '⚡', id: 'btn-electricidad'},
+    {nombre: '🌱', id: 'btn-tierra'},
+    {nombre: '💧', id: 'btn-agua'},
+)
+
 
 pokemones.push(picachu, squirtle, bulbasaur, jigglypuff)
 
 function iniciarJuego() {
+    const sectionVerMapa = document.getElementById('ver-mapa')
+    sectionVerMapa.style.display = 'none'
     const contenedorPokemon = document.getElementById('contenedor-pokemon')
     pokemones.forEach((pokemon) => {
         opcionDePokemones = `
@@ -120,7 +198,6 @@ function iniciarJuego() {
 
     let seccionSeleccionarAtaque = document.getElementById('seleccionar-ataques')
     seccionSeleccionarAtaque.style.display = 'none'
-
     let btnReiniciar = document.getElementById('btn-reiniciar')
     btnReiniciar.addEventListener('click', reiniciarJuego)
     btnReiniciar.style.display = 'none'
@@ -180,12 +257,11 @@ function mostrarBulbasaur() {
 }
 
 function seleccionarPokemonJugador() {
+    let divImagenPokemon = document.getElementById('imagen-pokemon')
+    let imagenPokemon
+    let sectionVerMapa = document.getElementById('ver-mapa')
     let seccionSeleccionarPokemon = document.getElementById('seleccionar-pokemon')
-    let seccionSeleccionarAtaques = document.getElementById('seleccionar-ataques')
-    let nombrePokemonJugador
     let spanPokemonJugador = document.getElementById('pokemon-jugador')
-    let flag = true
-
     if (inputPicachu.checked) {
         nombrePokemonJugador = inputPicachu.id
     } else if (inputJigglypuff.checked) {
@@ -196,14 +272,12 @@ function seleccionarPokemonJugador() {
         nombrePokemonJugador = inputBulbasaur.id
     }
     spanPokemonJugador.innerHTML = nombrePokemonJugador[0].toUpperCase() + nombrePokemonJugador.slice(1)
-
+    imagenPokemon = `<img id = "imagen-pokemon" src="assets/${nombrePokemonJugador}.jpg" alt=${nombrePokemonJugador.nombre}>`
+    divImagenPokemon.innerHTML = imagenPokemon
     extraerAtaques(nombrePokemonJugador)
-    seccionSeleccionarAtaques.style.display = 'flex'
     seccionSeleccionarPokemon.style.display = 'none'
-
-    if (flag) {
-        seleccionarPokemonEnemigo()
-    }
+    sectionVerMapa.style.display = 'flex'
+    iniciarMapa()
 }
 
 function extraerAtaques(nombrePokemonJugador) {
@@ -261,12 +335,15 @@ function secuenciaAtaque() {
     })
 }
 
-function seleccionarPokemonEnemigo() {
-    let pokemonEnemigo = aleatorio(0, pokemones.length - 1)
+function seleccionarPokemonEnemigo(enemigo) {
+    let divImagenEnemigo = document.getElementById('imagen-enemigo')
+    let imagenEnemigo
     let spanPokemonEnemigo = document.getElementById('pokemon-enemigo')
-    let nombrePokemonEnemigo = pokemones[pokemonEnemigo].nombre
+    let nombrePokemonEnemigo = enemigo.nombre
     spanPokemonEnemigo.innerHTML = nombrePokemonEnemigo[0].toUpperCase() + nombrePokemonEnemigo.slice(1)
-    ataquesPokemonEnemigo = pokemones[pokemonEnemigo].ataque
+    imagenEnemigo = `<img id = "imagen-enemigo" src=${enemigo.foto} alt=${enemigo.nombre}>`
+    divImagenEnemigo.innerHTML = imagenEnemigo
+    ataquesPokemonEnemigo = enemigo.ataque
     secuenciaAtaque()
 }
 
@@ -366,6 +443,150 @@ function aleatorio(min, max) {
 
 function reiniciarJuego() {
     location.reload()
+}
+
+function pintarCanvas() {
+    let mapa = document.getElementById('mapa')
+    let lienzo = mapa.getContext("2d")
+    obtenerPokemonObjeto.y = obtenerPokemonObjeto.y + obtenerPokemonObjeto.velocidadY
+    obtenerPokemonObjeto.x = obtenerPokemonObjeto.x + obtenerPokemonObjeto.velocidadX
+    lienzo.clearRect(0, 0, mapa.width, mapa.height)
+    lienzo.drawImage(
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    obtenerPokemonObjeto.pintarPokemon()
+    if (obtenerPokemonObjeto.nombre === 'picachu') {
+        squirtleEnemigo.pintarPokemon()
+        jigglypuffEnemigo.pintarPokemon()
+        bulbasaurEnemigo.pintarPokemon()
+    } else if (obtenerPokemonObjeto.nombre === 'bulbasaur') {
+        squirtleEnemigo.pintarPokemon()
+        jigglypuffEnemigo.pintarPokemon()
+        picachuEnemigo.pintarPokemon()
+    } else if (obtenerPokemonObjeto.nombre === 'squirtle') {
+        picachuEnemigo.pintarPokemon()
+        jigglypuffEnemigo.pintarPokemon()
+        bulbasaurEnemigo.pintarPokemon()
+    } else {
+        squirtleEnemigo.pintarPokemon()
+        picachuEnemigo.pintarPokemon()
+        bulbasaurEnemigo.pintarPokemon()
+    }
+
+    if (obtenerPokemonObjeto.velocidadX !== 0 || obtenerPokemonObjeto.velocidadY !== 0) {
+        if (obtenerPokemonObjeto.nombre === 'picachu') {
+            revisarColision(bulbasaurEnemigo)
+            revisarColision(jigglypuffEnemigo)
+            revisarColision(squirtleEnemigo)
+        } else if (obtenerPokemonObjeto.nombre === 'bulbasaur') {
+            revisarColision(jigglypuffEnemigo)
+            revisarColision(squirtleEnemigo)
+            revisarColision(picachuEnemigo)
+        } else if (obtenerPokemonObjeto.nombre === 'squirtle') {
+            revisarColision(bulbasaurEnemigo)
+            revisarColision(jigglypuffEnemigo)
+            revisarColision(picachuEnemigo)
+        } else {
+            revisarColision(bulbasaurEnemigo)
+            revisarColision(squirtleEnemigo)
+            revisarColision(picachuEnemigo)
+        }
+
+    }
+
+}
+
+function obtenerPokemon() {
+    for (let i = 0; i < pokemones.length; i++) {
+        if (nombrePokemonJugador === pokemones[i].nombre) {
+            return pokemones[i]
+        }
+    }
+}
+
+function moverRight() {
+    obtenerPokemonObjeto.velocidadX = 5
+}
+
+function moverLeft() {
+    obtenerPokemonObjeto.velocidadX = -5
+}
+
+function moverUp() {
+    obtenerPokemonObjeto.velocidadY = -5
+}
+
+function moverDown() {
+    obtenerPokemonObjeto.velocidadY = 5
+
+}
+
+function detenerMovimiento() {
+    obtenerPokemonObjeto.velocidadY = 0
+    obtenerPokemonObjeto.velocidadX = 0
+}
+
+function sePresionoTecla(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moverUp()
+            break
+        case 'ArrowDown':
+            moverDown()
+            break
+        case 'ArrowRight':
+            moverRight()
+            break
+        case 'ArrowLeft':
+            moverLeft()
+            break
+        default:
+            break
+    }
+}
+
+function iniciarMapa() {
+    let mapa = document.getElementById('mapa')
+    mapa.width = anchoMapa
+    mapa.height = alturaDeseada
+
+    obtenerPokemonObjeto = obtenerPokemon()
+    intervalo = setInterval(pintarCanvas, 50)
+    window.addEventListener('keydown', sePresionoTecla)
+    window.addEventListener('keyup', detenerMovimiento)
+}
+
+function revisarColision(enemigo) {
+    let seccionVerMapa = document.getElementById('ver-mapa')
+    let seccionSeleccionarAtaques = document.getElementById('seleccionar-ataques')
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.height
+    const izquierdaEnemigo = enemigo.x
+    const derechaEnemigo = enemigo.x + enemigo.width
+
+    const arribaPokemon = obtenerPokemonObjeto.y
+    const abajoPokemon = obtenerPokemonObjeto.y + obtenerPokemonObjeto.height
+    const izquierdaPokemon = obtenerPokemonObjeto.x
+    const derechaPokemon = obtenerPokemonObjeto.x + obtenerPokemonObjeto.width
+
+    if (
+        abajoPokemon < arribaEnemigo ||
+        arribaPokemon > abajoEnemigo ||
+        derechaPokemon < izquierdaEnemigo ||
+        izquierdaPokemon > derechaEnemigo
+    ) {
+        return
+    }
+    detenerMovimiento()
+    clearInterval(intervalo)
+    seccionSeleccionarAtaques.style.display = 'flex'
+    seccionVerMapa.style.display = 'none'
+    seleccionarPokemonEnemigo(enemigo)
+
 }
 
 window.addEventListener('load', iniciarJuego)
