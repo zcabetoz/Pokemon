@@ -1,5 +1,6 @@
 pokemones = []
 
+let jugadorId = null
 let opcionDePokemones
 
 let victoriasJugador = 0
@@ -44,11 +45,12 @@ let anchoMapa = window.innerWidth - 20
 
 const anchoMaximo = 800
 
-if(anchoMapa > anchoMaximo){
+if (anchoMapa > anchoMaximo) {
     anchoMapa = anchoMaximo - 20
 }
 
 alturaDeseada = anchoMapa * 600 / 800
+
 class Pokemon {
     constructor(nombre, foto, vida, fotoMapa) {
         this.nombre = nombre
@@ -203,6 +205,20 @@ function iniciarJuego() {
     btnReiniciar.style.display = 'none'
     btnPokemonJugador.disabled = true
     btnPokemonJugador.style.background = 'gray'
+
+    unirseAlJuego()
+}
+
+function unirseAlJuego() {
+    fetch("http://localhost:8080/unirse")
+        .then(function (res) {
+            if (res.ok) {
+                res.text().then(function (respuesta) {
+                    console.log(respuesta)
+                    jugadorId = respuesta
+                })
+            }
+        })
 }
 
 function mostrarJigglypuff() {
@@ -277,7 +293,20 @@ function seleccionarPokemonJugador() {
     extraerAtaques(nombrePokemonJugador)
     seccionSeleccionarPokemon.style.display = 'none'
     sectionVerMapa.style.display = 'flex'
+    seleccionarPokemon(nombrePokemonJugador)
     iniciarMapa()
+}
+
+function seleccionarPokemon(nombrePokemonJugador){
+    fetch(`http://localhost:8080/pokemon/${jugadorId}`, {
+        method: "post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            pokemon: nombrePokemonJugador
+        })
+    })
 }
 
 function extraerAtaques(nombrePokemonJugador) {

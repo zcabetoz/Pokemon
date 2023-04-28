@@ -19,7 +19,7 @@ img{
     text-align: center;
     color: white;
     max-height: 210px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .atras {
@@ -102,6 +102,9 @@ input {
     cursor: pointer;
     margin: 5px;
 }
+#contenedor-ataques{
+    text-align: center;
+}
 
 #mensajes{
     font-size: 20px;
@@ -132,7 +135,7 @@ input:hover + label{
 
 .ataques{
     display: grid;
-    grid-template-columns: 300px 200px 200px 300px ;
+    grid-template-columns: 200px 200px;
     justify-items: center;
     text-align: center;
     color: white;
@@ -161,13 +164,26 @@ input:hover + label{
     margin: 5px 0;
 }
 
-#imagen-enemigo{
-    height: 90%;
-    width: 90%;
+/*#imagen-enemigo{*/
+/*    max-width: 600px;*/
+/*    max-height: 600px;*/
+/*    height: 35%;*/
+/*    width: 35%;*/
+/*    text-align: center;*/
+/*}*/
+#imagen-pokemon,#imagen-enemigo {
+    max-width: 600px;
+    max-height: 600px;
+    height: 35%;
+    width: 35%;
+    text-align: center;
 }
-#imagen-pokemon{
-    height: 90%;
-    width: 90%;
+
+#oponentes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 @media (max-width: 800px) {
     #contenedor-pokemon{
